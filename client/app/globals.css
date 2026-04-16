@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f5f1e8;
+  --ink: #1d1b17;
+  --arabic-font-size: 2rem;
+  --translation-font-size: 1.125rem;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --font-sans: var(--font-lora);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-lora), serif;
+  min-height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings:
+    "liga" 1,
+    "kern" 1;
+}
+
+.arabic-text {
+  font-size: var(--arabic-font-size);
+  line-height: 1.95;
+  letter-spacing: 0;
+}
+
+.translation-text {
+  font-size: var(--translation-font-size);
+  line-height: 1.75;
+}
+
+html[data-arabic-font="amiri"] .arabic-text {
+  font-family: var(--font-amiri), serif;
+}
+
+html[data-arabic-font="notoNaskh"] .arabic-text {
+  font-family: var(--font-noto-naskh), serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.45) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.page-shell {
+  animation: fade-up 500ms ease-out both;
+}
+
+.site-header {
+  backdrop-filter: blur(12px);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
