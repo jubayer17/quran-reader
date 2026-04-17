@@ -14,9 +14,6 @@ export function AyahCard({ ayah }: { ayah: Ayah }) {
                 <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-[#8a6741] px-3 text-sm font-semibold text-white shadow-md shadow-[#8a6741]/15">
                     {ayah.numberInSurah}
                 </span>
-                {/* <span className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-400 transition group-hover:text-stone-600">
-                    Ayah
-                </span> */}
             </div>
             <p dir="rtl" className="arabic-text mt-5 text-right text-stone-950">
                 {ayah.arabic}
