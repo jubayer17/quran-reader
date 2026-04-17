@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getSurahList, getSurahDetails, searchAyahs } from "./lib/quran-db";
+import { getSurahList, getSurahDetails, searchAyahs } from "./lib/quran-db.js";
 
 const app = new Hono();
 
