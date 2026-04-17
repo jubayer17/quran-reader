@@ -1,6 +1,6 @@
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
 
 type Ayah = {
     numberInSurah: number;
@@ -51,13 +51,11 @@ export type SearchResult = {
     translation: string;
 };
 
-const dataPath = join(dirname(fileURLToPath(import.meta.url)), "../data/quran-data.json");
-
 let cached: QuranData | null = null;
 
 function getQuranData(): QuranData {
     if (!cached) {
-        cached = JSON.parse(readFileSync(dataPath, "utf-8")) as QuranData;
+        cached = require("../data/quran-data.json") as QuranData;
     }
     return cached;
 }
