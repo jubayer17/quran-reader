@@ -1,4 +1,6 @@
-import { join } from "node:path";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 type Ayah = {
     numberInSurah: number;
@@ -49,19 +51,19 @@ export type SearchResult = {
     translation: string;
 };
 
-const dataPath = join(import.meta.dir, "../data/quran-data.json");
+const dataPath = join(dirname(fileURLToPath(import.meta.url)), "../data/quran-data.json");
 
 let cached: QuranData | null = null;
 
-async function getQuranData(): Promise<QuranData> {
-    if (cached) return cached;
-    const raw = await Bun.file(dataPath).text();
-    cached = JSON.parse(raw) as QuranData;
+function getQuranData(): QuranData {
+    if (!cached) {
+        cached = JSON.parse(readFileSync(dataPath, "utf-8")) as QuranData;
+    }
     return cached;
 }
 
 export async function getSurahList(): Promise<SurahSummary[]> {
-    const quran = await getQuranData();
+    const quran = getQuranData();
     return quran.surahs.map((surah) => ({
         number: surah.number,
         name: surah.name,
@@ -73,7 +75,7 @@ export async function getSurahList(): Promise<SurahSummary[]> {
 }
 
 export async function getSurahDetails(surahNumber: number): Promise<SurahDetails | null> {
-    const quran = await getQuranData();
+    const quran = getQuranData();
     const surah = quran.surahs.find((s) => s.number === surahNumber);
     if (!surah) return null;
     return {
@@ -94,7 +96,7 @@ export async function getSurahDetails(surahNumber: number): Promise<SurahDetails
 }
 
 export async function searchAyahs(query: string): Promise<SearchResult[]> {
-    const quran = await getQuranData();
+    const quran = getQuranData();
     const q = query.toLowerCase();
     const results: SearchResult[] = [];
     for (const surah of quran.surahs) {
